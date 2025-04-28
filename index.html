@@ -5,25 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDE Plasma Web</title>
     <link rel="stylesheet" href="breeze.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="taskbar">
-        <div id="taskbar-left">
-            <div class="hoverable app-icon" id="app-launcher">
+        <div id="apps">
+            <div class="hoverable app icon" id="app-launcher">
                 <img src="icons/app/kde-plasma.svg" alt="">
             </div>
-            <div class="hoverable app-icon">
+            <div class="hoverable app icon">
                 <img src="icons/app/dolphin.svg" alt="">
             </div>
-            <div class="hoverable app-icon">
+            <div class="hoverable app icon">
                 <img src="icons/app/konsole.svg" alt="">
             </div>
-            <div class="hoverable app-icon">
+            <div class="hoverable app icon">
                 <img src="icons/app/firefox.svg" alt="">
             </div>
         </div>
-        <div id="taskbar-right">
-
+        <div id="tray">
+            <!--is hoverable but icons only change color on the image-->
+            <div class="tray icon">
+                <img class="hoverable" src="icons/tray/audio-volume-high.svg" alt="">
+            </div>
+            <div class="tray icon">
+                <img class="hoverable" src="icons/tray/brightness-high.svg" alt="">
+            </div>
+            <div class="tray icon">
+                <img class="hoverable" src="icons/tray/network-wired.svg" alt="">
+            </div>
+            <div class="tray icon" id="tray-show-hidden">
+                <img class="hoverable" src="icons/tray/go-up.svg" alt="">
+            </div>
+            <div id="clock">
+                <p class="text-normal" id="time">7:56 PM</p>
+                <p class="text-small" id="date">4/28/25</p>
+            </div>
+            <div class="tray icon" id="tray-hide-windows">
+                <img class="hoverable" src="icons/tray/user-desktop.svg" alt="">
+            </div>
         </div>
     </div>
     <div id="wallpaper-container">
