@@ -1,0 +1,34 @@
+#tray {
+    display: flex;
+}
+
+.tray {
+    width: 29px;
+    height: 44px;
+}
+
+.tray img {
+    width: 22px;
+    height: 22px;
+}
+
+#tray-show-hidden {
+    width: 28px;
+}
+
+#tray-hide-windows {
+    width: 48px;
+    margin-left: 2px;
+}
+
+#clock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 2px;
+}
+
+#clock p {
+    margin: -3px 0;
+}

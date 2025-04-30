@@ -1,0 +1,41 @@
+.window{
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    height: 400px;
+    width: 400px;
+    top: 40px;
+    left: 400px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.window-actions {
+    box-sizing: border-box;
+    padding: 4px;
+    height: 27px;
+    width: 100%;
+    background-color: #e0e0e0;
+    /*i ran into weird issues with the border when putting it in .window*/
+    border-radius: inherit;
+    border-top: 1px;
+    border-right: 1px;
+    border-left: 1px;
+    border-bottom: 0;
+    border-style: solid;
+    border-color: #bbb;
+}
+
+.window-content {
+    flex-grow: 1;
+    box-sizing: border-box;
+    background-color: white;
+    border-top: 0;
+    border-right: 1px;
+    border-left: 1px;
+    border-bottom: 1px;
+    border-style: solid;
+    border-color: #bbb;
+}

@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDE Plasma Web</title>
-    <link rel="stylesheet" href="breeze.css">
+    
+    <!--fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!--styles-->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/apps.css">
+    <link rel="stylesheet" href="css/tray.css">
+    <link rel="stylesheet" href="css/windows.css">
+
 </head>
 <body>
     <div id="taskbar">
@@ -41,11 +49,17 @@
             </div>
             <div id="clock">
                 <p class="text-normal" id="time">7:56 PM</p>
-                <p class="text-small" id="date">4/28/25</p>
+                <p class="text-small" id="date">4/29/25</p>
             </div>
             <div class="tray icon" id="tray-hide-windows">
                 <img class="hoverable" src="icons/tray/user-desktop.svg" alt="">
             </div>
+        </div>
+    </div>
+    <div id="windows">
+        <div class="window">
+            <div class="window-actions"></div>
+            <div class="window-content"></div>
         </div>
     </div>
     <div id="wallpaper-container">

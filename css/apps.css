@@ -1,0 +1,35 @@
+#apps {
+    display: flex;
+}
+
+.app {
+    width: 52px;
+    height: 44px;
+}
+
+/*
+.app {
+    padding: 0 3px 3px 3px;
+    border-top: solid 3px rgb(165, 165, 165, 0.9);
+    background-color: rgba(165, 165, 165, 0.3);
+    filter: none;
+}
+*/
+
+.app img{
+    width: 32px;
+    height: 32px;
+}
+
+#app-launcher {
+    width: 32px;
+    margin: 0 8px;
+}
+
+/*
+#app-launcher {
+    padding: 0 3px 3px 3px;
+    border-top: solid 3px rgb(61, 174, 233);
+    background-color: transparent;
+}
+*/
