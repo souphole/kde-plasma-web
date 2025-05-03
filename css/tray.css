@@ -21,6 +21,10 @@
     margin-left: 2px;
 }
 
+#tray-hide-windows img {
+    height: 24px;
+}
+
 #clock {
     display: flex;
     flex-direction: column;

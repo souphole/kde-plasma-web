@@ -9,13 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
     <!--styles-->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/apps.css">
     <link rel="stylesheet" href="css/tray.css">
     <link rel="stylesheet" href="css/windows.css">
-
+    <!--scripts-->
+    <script src="js/windows.js" defer></script>
 </head>
 <body>
     <div id="taskbar">
@@ -56,14 +56,18 @@
             </div>
         </div>
     </div>
-    <div id="windows">
-        <div class="window">
-            <div class="window-actions"></div>
-            <div class="window-content"></div>
-        </div>
+    <div id="window-container">
+        <template id="window-template">
+            <div class="window">
+                <div class="inner-window">
+                    <div class="window-actions"></div>
+                    <div class="window-content"></div>
+                </div>
+            </div>
+        </template>
     </div>
     <div id="wallpaper-container">
-        <img id="wallpaper" src="wallpapers/breeze7680x2160.png" alt="">
+        <img draggable="false" id="wallpaper" src="wallpapers/breeze7680x2160.png" alt="">
     </div>
 </body>
 </html>

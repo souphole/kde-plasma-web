@@ -1,7 +1,12 @@
 * {
     margin: 0;
     font-family: 'Noto Sans';
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
+
 
 .text-normal {
     font-size: 12pt;
