@@ -1,19 +1,42 @@
 const windowContainer = document.getElementById('window-container')
 const windowTemplate = document.getElementById('window-template')
+const testFirefox = document.getElementById('firefox')
 
 class Window {
-    constructor(startWidth, startHeight, start_x, start_y) {
+    constructor(startWidth, startHeight, startX, startY, iconSrc, title) {
         this.windowNode = windowTemplate.content.cloneNode(true).children[0]
         this.inner = this.windowNode.getElementsByClassName('inner-window')[0]
+        this.header = this.windowNode.getElementsByClassName('window-header')[0]
+        this.icon = this.windowNode.getElementsByClassName('window-icon')[0]
+        this.title = this.windowNode.getElementsByClassName('window-title')[0]
         this.actions = this.windowNode.getElementsByClassName('window-actions')[0]
+        this.minimize = this.windowNode.getElementsByClassName('window-minimize')[0]
+        this.changeSize = this.windowNode.getElementsByClassName('window-change-size')[0]
+        this.close = this.windowNode.getElementsByClassName('window-close')[0]
         this.content = this.windowNode.getElementsByClassName('window-content')[0]
+        this.icon.src = iconSrc
+        this.title.innerText = title
         this.windowNode.style.width = startWidth + "px"
         this.windowNode.style.height = startHeight + "px"
-        this.windowNode.style.left = start_x + "px"
-        this.windowNode.style.top = start_y + "px"
+        this.windowNode.style.left = startX + "px"
+        this.windowNode.style.top = startY + "px"
         windowContainer.appendChild(this.windowNode)
         makeWindowDraggable(this)
         makeWindowResizable(this)
+    }
+    hide(originElement) {
+        if (typeof originElement === 'undefined') {
+            originElement = this.windowNode
+        }
+        const rect = originElement.getBoundingClientRect()
+        const centerX = (rect.left + rect.right) / 2
+        const centerY = (rect.top + rect.bottom) / 2
+        this.hidePos(centerX, centerY)
+    }
+    hidePos(hidePosX, hidePosY) {  
+        this.windowNode.classList.add("window-hidden")
+        this.windowNode.style.left = (hidePosX - (this.windowNode.offsetWidth / 2)) + "px"
+        this.windowNode.style.top = (hidePosY - (this.windowNode.offsetHeight / 2)) + "px"
     }
 }
 
@@ -22,7 +45,7 @@ function makeWindowDraggable(targetWindow) {
     var lastPosX = 0, lastPosY = 0
     var windowDraggable = false
 
-    targetWindow.actions.addEventListener('mousedown', function(e) {
+    targetWindow.header.addEventListener('mousedown', function(e) {
         lastPosX = e.clientX
         lastPosY = e.clientY
         windowDraggable = true
@@ -104,4 +127,4 @@ function makeWindowResizable(targetWindow) {
     })
 }
 
-var newWindow = new Window(600, 400, 200, 100)
+var newWindow = new Window(600, 400, 200, 100, 'icons/app/firefox.svg', 'Firefox')

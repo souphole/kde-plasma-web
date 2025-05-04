@@ -29,7 +29,7 @@
             <div class="hoverable app icon">
                 <img src="icons/app/konsole.svg" alt="">
             </div>
-            <div class="hoverable app icon">
+            <div class="hoverable app icon" id="firefox">
                 <img src="icons/app/firefox.svg" alt="">
             </div>
         </div>
@@ -60,7 +60,15 @@
         <template id="window-template">
             <div class="window">
                 <div class="inner-window">
-                    <div class="window-actions"></div>
+                    <div class="window-header text-small">
+                        <img src="icons/app/dolphin.svg" class="window-icon">
+                        <p class="window-title">Home -- Dolphin</p>
+                        <div class="window-actions">
+                            <img src="icons/window/window-minimize.svg" class="window-minimize window-action">
+                            <img src="icons/window/window-maximize.svg" class="window-change-size window-action">
+                            <img src="icons/window/window-close.svg" class="window-close window-action">
+                        </div>
+                    </div>
                     <div class="window-content"></div>
                 </div>
             </div>
