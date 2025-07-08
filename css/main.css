@@ -7,7 +7,6 @@
     -moz-user-select: none;
 }
 
-
 .text-normal {
     font-size: 12pt;
 }
@@ -47,5 +46,5 @@
     justify-content: center;
     overflow: hidden;
     height: 100vh;
-    background-color: black;
+    background-color: white;
 }

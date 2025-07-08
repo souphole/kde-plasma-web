@@ -5,28 +5,29 @@
     overflow: hidden;
 }
 
-.window{
+.window {
     position: absolute;
-    z-index: 1;
     padding: 10px;
     /*will get overwritten by js*/
     height: 400px;
     width: 400px;
     top: 40px;
     left: 400px;
-    transition:
-        scale 0.1s ease-out,
-        opacity 0.1s ease-out;
+    scale: 1;
+    opacity: 1;
+}
+
+.window-transition {
+    transition: scale 0.2s ease-out, opacity 0.15s ease-out, left 0.2s ease-out, top 0.2s ease-out;
 }
 
 .window-hidden {
-    transition: 
-        scale 0.2s ease-out,
-        opacity 0.1s ease-out,
-        left 0.2s ease-out,
-        top 0.2s ease-out;
     scale: 0;
     opacity: 0;
+}
+
+.window-always-on-top {
+    z-index: 10;
 }
 
 .inner-window {
@@ -34,14 +35,18 @@
     flex-direction: column;
     height: 100%;
     border-radius: 5px 5px 0 0;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
+}
+
+.focused {
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
 }
 
 .window-header {
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 33.33% 33.33% 33.33%;
-    grid-template-rows: calc(27px - 7px);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 20px;
     align-items: center;
     padding: 3px;
     height: 27px;
@@ -83,8 +88,16 @@
     background-color: rgb(210, 210, 210);
 }
 
+.window-action:active {
+    background-color: rgb(89, 89, 89);
+}
+
 .window-close:hover {
     background-color: rgb(0, 100, 100);
+}
+
+.window-close:active {
+    background-color: rgb(145, 220, 220);
 }
 
 .window-content {

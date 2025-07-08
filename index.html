@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDE Plasma Web</title>
-    
+
     <!--fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,8 +16,9 @@
     <link rel="stylesheet" href="css/tray.css">
     <link rel="stylesheet" href="css/windows.css">
     <!--scripts-->
-    <script src="js/windows.js" defer></script>
+    <script type="module" src="js/windows.js" defer></script>
 </head>
+
 <body>
     <div id="taskbar">
         <div id="apps">
@@ -57,25 +59,26 @@
         </div>
     </div>
     <div id="window-container">
-        <template id="window-template">
-            <div class="window">
-                <div class="inner-window">
-                    <div class="window-header text-small">
-                        <img src="icons/app/dolphin.svg" class="window-icon">
-                        <p class="window-title">Home -- Dolphin</p>
-                        <div class="window-actions">
-                            <img src="icons/window/window-minimize.svg" class="window-minimize window-action">
-                            <img src="icons/window/window-maximize.svg" class="window-change-size window-action">
-                            <img src="icons/window/window-close.svg" class="window-close window-action">
-                        </div>
-                    </div>
-                    <div class="window-content"></div>
-                </div>
-            </div>
-        </template>
     </div>
     <div id="wallpaper-container">
-        <img draggable="false" id="wallpaper" src="wallpapers/breeze7680x2160.png" alt="">
+        <!--<img draggable="false" id="wallpaper" src="wallpapers/breeze7680x2160.png" alt="">-->
     </div>
+    <template id="window-template">
+        <div class="window">
+            <div class="inner-window">
+                <div class="window-header text-small">
+                    <img src="icons/app/dolphin.svg" class="window-icon">
+                    <p class="window-title">Home -- Dolphin</p>
+                    <div class="window-actions">
+                        <img src="icons/window/window-minimize.svg" class="window-minimize window-action">
+                        <img src="icons/window/window-maximize.svg" class="window-change-size window-action">
+                        <img src="icons/window/window-close.svg" class="window-close window-action">
+                    </div>
+                </div>
+                <div class="window-content"></div>
+            </div>
+        </div>
+    </template>
 </body>
+
 </html>
