@@ -1,20 +1,43 @@
-import { updateCursor } from "./cursor.js"
+import { getCurrentCursorOffest, updateCursor } from "./cursor.js"
 
 const windowContainer = document.getElementById('window-container')
 const windowTemplate = document.getElementById('window-template')
-const testFirefox = document.getElementById('firefox')
 
-let focusedWindow 
-let activeWindow 
+class WindowManager {
+    constructor() {
+        this.activeWindow = null
+    }
+    set focusedWindow(targetWindow) {
+        if (targetWindow === null) return
+        
+        let windowsFrag = document.createDocumentFragment()
+        
+        for (const child of windowContainer.children) {
+            if (child !== targetWindow.windowNode) {
+                windowsFrag.appendChild(child)
+                child.classList.remove('focused')
+            }
+        }
+
+        windowsFrag.appendChild(targetWindow.windowNode)
+        windowContainer.appendChild(windowsFrag)
+        targetWindow.windowNode.classList.add('focused')
+    }
+    checkOtherActive(targetWindow) {
+        return (this.activeWindow !== targetWindow && this.activeWindow !== null)
+    }
+}
 
 class Window {
-    constructor(startWidth, startHeight, startX, startY, iconSrc, title) {
+    constructor(wm, startWidth, startHeight, startX, startY, iconSrc, title) {
+        this.wm = wm
         this.windowNode = windowTemplate.content.cloneNode(true).children[0]
+        this.tooltip = this.windowNode.getElementsByClassName('window-tooltip')[0]
         this.inner = this.windowNode.getElementsByClassName('inner-window')[0]
         this.header = this.windowNode.getElementsByClassName('window-header')[0]
         this.icon = this.windowNode.getElementsByClassName('window-icon')[0]
         this.title = this.windowNode.getElementsByClassName('window-title')[0]
-        this.actions = this.windowNode.getElementsByClassName('window-actions')[0]
+        this.actions = this.windowNode.getElementsByClassName('window-actions')
         this.minimize = this.windowNode.getElementsByClassName('window-minimize')[0]
         this.changeSize = this.windowNode.getElementsByClassName('window-change-size')[0]
         this.close = this.windowNode.getElementsByClassName('window-close')[0]
@@ -27,9 +50,18 @@ class Window {
         this.windowNode.style.height = startHeight + "px"
         this.windowNode.style.left = startX + "px"
         this.windowNode.style.top = startY + "px"
+        
+        this.windowNode.addEventListener('transitionend', function(e) {
+            e.target.classList.remove('window-transition')
+        })
+        
         windowContainer.appendChild(this.windowNode)
+        makeWindowFocusable(this)
         makeWindowDraggable(this)
         makeWindowResizable(this)
+        makeWindowTooltips(this)
+
+        this.wm.focusedWindow = this
     }
     hide(originElement = this.windowNode) {
         const rect = originElement.getBoundingClientRect()
@@ -45,9 +77,6 @@ class Window {
         windowNode.classList.add("window-hidden")
         windowNode.style.left = (hidePosX - (this.windowNode.offsetWidth / 2)) + "px"
         windowNode.style.top = (hidePosY - (this.windowNode.offsetHeight / 2)) + "px"
-        windowNode.addEventListener('transitionend', function() {
-            windowNode.classList.remove('window-transition')
-        })
     }
     show() {
         const windowNode = this.windowNode
@@ -55,32 +84,34 @@ class Window {
         windowNode.classList.remove("window-hidden")
         windowNode.style.left = this.showMemoryX + "px"
         windowNode.style.top = this.showMemoryY + "px"
-        windowNode.addEventListener('transitionend', function() {
-            windowNode.classList.remove('window-transition')
-        })
     }
 }
 
 function resizeStyleString(resizeX, resizeY) {
     if (resizeX === 0 && resizeY === 0) return null
 
-    let ewString = ''
-    let nsString = ''
+    let horiString = ''
+    let vertString = ''
     
     if (resizeX === 1) {
-        ewString = 'e'
+        horiString = 'e'
     }
     if (resizeX === -1) {
-        ewString = 'w'
+        horiString = 'w'
     }
     if (resizeY === -1) {
-        nsString = 'n'
+        vertString = 'n'
     }
     if (resizeY === 1) {
-        nsString = 's'
+        vertString = 's'
     }
 
-    return nsString + ewString + '-resize'
+    return vertString + horiString + '-resize'
+}
+function makeWindowFocusable(targetWindow) {
+    targetWindow.windowNode.addEventListener('mousedown', function(e) {
+        targetWindow.wm.focusedWindow = targetWindow
+    })
 }
 
 function makeWindowDraggable(targetWindow) {
@@ -89,11 +120,15 @@ function makeWindowDraggable(targetWindow) {
     let lastPosX = 0,
         lastPosY = 0
     let windowDraggable = false
-
+    targetWindow.tooltip.addEventListener('mousemove', function(e) {}, {capture: true})
     targetWindow.header.addEventListener('mousedown', function(e) {
         lastPosX = e.clientX
         lastPosY = e.clientY
         windowDraggable = true
+    })
+
+    document.addEventListener('mouseup', function(e) {
+        windowDraggable = false
     })
 
     document.addEventListener('mousemove', function(e) {
@@ -106,10 +141,6 @@ function makeWindowDraggable(targetWindow) {
             targetWindow.windowNode.style.left = (targetWindow.windowNode.offsetLeft - velocityX) + "px"
             targetWindow.windowNode.style.top = (targetWindow.windowNode.offsetTop - velocityY) + "px"
         }
-    })
-
-    document.addEventListener('mouseup', function(e) {
-        windowDraggable = false
     })
 }
 
@@ -132,15 +163,17 @@ function makeWindowResizable(targetWindow) {
     let windowResizing = false
 
     targetWindow.inner.addEventListener('mousedown', function(e) {
-        e.stopPropagation() //makes sure to only resize when the outside of the window is clicked
+        windowResizable = false
     })
 
-    targetWindow.inner.addEventListener('mousedown', function(e) {
-        e.stopPropagation() //makes sure to only resize when the outside of the window is clicked
+    document.addEventListener('mouseup', function(e) {
+        windowResizeX = 0, windowResizeY = 0
+        windowResizing = false
+        targetWindow.wm.activeWindow = null
     })
 
     targetWindow.inner.addEventListener('mouseenter', function(e) {
-        if (windowResizing) return
+        if (windowResizing || targetWindow.wm.checkOtherActive(targetWindow)) return
         windowResizable = false
         updateCursor(null)
     })
@@ -148,10 +181,10 @@ function makeWindowResizable(targetWindow) {
     targetWindow.inner.addEventListener('mouseleave', function(e) {
         windowResizable = true
     })
-
     
     targetWindow.windowNode.addEventListener('mouseleave', function(e) {
-        if (windowResizing) return
+        if (windowResizing || targetWindow.wm.checkOtherActive(targetWindow)) return
+
         windowResizable = false
         updateCursor(null)
     })
@@ -161,6 +194,8 @@ function makeWindowResizable(targetWindow) {
     })
 
     targetWindow.windowNode.addEventListener('mousedown', function(e) {
+        if (!windowResizable || targetWindow.wm.checkOtherActive(targetWindow)) return
+
         lastPosX = e.clientX
         lastPosY = e.clientY
         //set windowResizeX and Y
@@ -176,12 +211,14 @@ function makeWindowResizable(targetWindow) {
         if (e.offsetY > (targetWindow.windowNode.offsetHeight - padB - crossoverResize - 1)) {
             windowResizeY = 1
         }
+        targetWindow.wm.activeWindow = targetWindow
 
         windowResizing = true
     })
     
     document.addEventListener('mousemove', function(e) {
-        if (!windowResizable) return
+        if (!windowResizable || targetWindow.wm.checkOtherActive(targetWindow)) return
+
         if (!windowResizing) {
             windowResizeX = 0
             windowResizeY = 0
@@ -216,12 +253,52 @@ function makeWindowResizable(targetWindow) {
             }
         }
     })
+}
 
-    document.addEventListener('mouseup', function(e) {
-        windowResizeX = 0, windowResizeY = 0
-        windowResizing = false
+function makeWindowTooltips(targetWindow) {
+    let enterTimeoutID = null
+    let exitTimeoutID = null
+    let currentX = 0
+    let currentY = 0
+
+    function moveToCursor(target) {
+        targetWindow.tooltip.innerText = target.getAttribute('window-tooltip')
+        targetWindow.tooltip.style.opacity = 1
+
+        targetWindow.tooltip.style.left = (currentX - targetWindow.windowNode.offsetLeft + 2) + 'px'
+        targetWindow.tooltip.style.top = (currentY - targetWindow.windowNode.offsetTop + 10) + 'px'
+    }
+
+    targetWindow.header.addEventListener('mouseout', function(e){
+        if (e.target.getAttribute('window-tooltip') === null) return
+
+        exitTimeoutID = setTimeout(() => {
+            targetWindow.tooltip.style.opacity = 0
+            exitTimeoutID = null
+        }, 250)
+        clearTimeout(enterTimeoutID)
+    })
+    
+    targetWindow.header.addEventListener('mouseover', function(e){
+        if (e.target.getAttribute('window-tooltip') === null) return
+        
+        if (exitTimeoutID !== null) {
+            clearTimeout(exitTimeoutID)
+            exitTimeoutID = null
+            moveToCursor(e.target)
+        }
+        else {
+            enterTimeoutID = setTimeout(moveToCursor, 1000, e.target)
+        }
+        
+    })
+
+    targetWindow.header.addEventListener('mousemove', function(e) {
+        currentX = e.clientX
+        currentY = e.clientY
     })
 }
 
-let newWindow = new Window(600, 400, 200, 100, 'icons/app/firefox.svg', 'Firefox')
-let newWindow2 = new Window(600, 400, 300, 200, 'icons/app/dolphin.svg', 'Dolphin')
+const mainWindowManager = new WindowManager()
+let newWindow = new Window(mainWindowManager, 600, 400, 200, 100, 'icons/app/firefox.svg', 'Firefox')
+let newWindow2 = new Window(mainWindowManager, 600, 400, 300, 200, 'icons/app/dolphin.svg', 'Dolphin')

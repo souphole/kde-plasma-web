@@ -38,10 +38,6 @@
     box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
 }
 
-.focused {
-    box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
-}
-
 .window-header {
     box-sizing: border-box;
     display: grid;
@@ -51,7 +47,7 @@
     padding: 3px;
     height: 27px;
     width: 100%;
-    background-color: #e0e0e0;
+    background-color: #f0f0f0;
     /*i ran into weird issues with the border when putting it in .window*/
     border-radius: inherit;
     border-top: 1px;
@@ -60,6 +56,15 @@
     border-bottom: 0;
     border-style: solid;
     border-color: #bbb;
+    transition: all 1s ease-out;
+}
+
+.focused .inner-window{
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+}
+
+.focused .window-header {
+    background-color: #e0e0e0;
 }
 
 .window-icon {
@@ -89,14 +94,17 @@
 }
 
 .window-action:active {
+    filter: invert();
     background-color: rgb(89, 89, 89);
 }
 
 .window-close:hover {
+    filter: invert();
     background-color: rgb(0, 100, 100);
 }
 
 .window-close:active {
+    filter: invert();
     background-color: rgb(145, 220, 220);
 }
 
@@ -110,4 +118,18 @@
     border-bottom: 1px;
     border-style: solid;
     border-color: #bbb;
+}
+
+.window-tooltip {
+    z-index: 9999;
+    pointer-events: none;
+    position: absolute;
+    display: inline-block;
+    padding: 4px;
+    background-color: #f7f7f7;
+    border: 1px solid #c2c3c4;
+    border-radius: 6px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.2s linear;
 }

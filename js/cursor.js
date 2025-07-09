@@ -24,13 +24,18 @@ assetMap.set('nw-resize', sizeFdiag)
 assetMap.set('se-resize', sizeFdiag)
 assetMap.set('sw-resize', sizeBiag)
 
+let cur
+
 export function updateCursor(style) {
-    console.log(style)
     if (style === null) {
         style = 'default'
     }
 
-    let cur = assetMap.get(style)
+    cur = assetMap.get(style)
 
-    document.body.style.setProperty('cursor', `url(${cur.url}) ${cur.x} ${cur.y}, ${style}`)
+    document.body.style.cursor = `url(${cur.url}) ${cur.x} ${cur.y}, ${style}`
+}
+
+export function getCurrentCursorOffest() {
+    return {offsetX: cur.x, offsetY: cur.y}
 }

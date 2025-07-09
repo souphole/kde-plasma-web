@@ -65,14 +65,15 @@
     </div>
     <template id="window-template">
         <div class="window">
+            <span class="window-tooltip text-small">Minimize</span>
             <div class="inner-window">
                 <div class="window-header text-small">
                     <img src="icons/app/dolphin.svg" class="window-icon">
                     <p class="window-title">Home -- Dolphin</p>
                     <div class="window-actions">
-                        <img src="icons/window/window-minimize.svg" class="window-minimize window-action">
-                        <img src="icons/window/window-maximize.svg" class="window-change-size window-action">
-                        <img src="icons/window/window-close.svg" class="window-close window-action">
+                        <img src="icons/window/window-minimize.svg" class="window-minimize window-action" window-tooltip="Minimize">
+                        <img src="icons/window/window-maximize.svg" class="window-change-size window-action" window-tooltip="Maximize">
+                        <img src="icons/window/window-close.svg" class="window-close window-action" window-tooltip="Close">
                     </div>
                 </div>
                 <div class="window-content"></div>
