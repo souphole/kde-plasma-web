@@ -8,6 +8,8 @@
 .window {
     position: absolute;
     padding: 10px;
+    min-height: 200px;
+    min-width: 200px;
     /*will get overwritten by js*/
     height: 400px;
     width: 400px;

@@ -17,22 +17,29 @@
     <link rel="stylesheet" href="css/windows.css">
     <!--scripts-->
     <script type="module" src="js/windows.js" defer></script>
+    <script type="module" src="js/apps.js" defer></script>
+    <script type="module" src="js/clock.js" defer></script>
+    <!-- this is for bypassing sites that dont embed in iframes -->
+    <script type="module" src="https://niutech.github.io/x-frame-bypass/x-frame-bypass.js"></script>
 </head>
 
 <body>
-    <div id="taskbar">
+    <div id="taskbar" class="taskbar-normal">
         <div id="apps">
             <div class="hoverable app icon" id="app-launcher">
                 <img src="icons/app/kde-plasma.svg" alt="">
             </div>
-            <div class="hoverable app icon">
-                <img src="icons/app/dolphin.svg" alt="">
-            </div>
-            <div class="hoverable app icon">
-                <img src="icons/app/konsole.svg" alt="">
-            </div>
+            <!-- <div class="hoverable app icon"> -->
+            <!--     <img src="icons/app/dolphin.svg" alt=""> -->
+            <!-- </div> -->
+            <!-- <div class="hoverable app icon"> -->
+            <!--     <img src="icons/app/konsole.svg" alt=""> -->
+            <!-- </div> -->
             <div class="hoverable app icon" id="firefox">
                 <img src="icons/app/firefox.svg" alt="">
+            </div>
+	    <div class="hoverable app icon" id="mousepad">
+                <img src="icons/app/mousepad.png" alt="">
             </div>
         </div>
         <div id="tray">
@@ -50,8 +57,8 @@
                 <img class="hoverable" src="icons/tray/go-up.svg" alt="">
             </div>
             <div id="clock">
-                <p class="text-normal" id="time">7:56 PM</p>
-                <p class="text-small" id="date">4/29/25</p>
+                <p class="text-normal" id="time">0:00 PM</p>
+                <p class="text-small" id="date">0/00/00</p>
             </div>
             <div class="tray icon" id="tray-hide-windows">
                 <img class="hoverable" src="icons/tray/user-desktop.svg" alt="">
@@ -61,7 +68,7 @@
     <div id="window-container">
     </div>
     <div id="wallpaper-container">
-        <!--<img draggable="false" id="wallpaper" src="wallpapers/breeze7680x2160.png" alt="">-->
+        <img draggable="false" id="wallpaper" src="wallpapers/breeze7680x2160.png" alt="">
     </div>
     <template id="window-template">
         <div class="window">
@@ -76,9 +83,16 @@
                         <img src="icons/window/window-close.svg" class="window-close window-action" window-tooltip="Close">
                     </div>
                 </div>
-                <div class="window-content"></div>
+                <div class="window-content">
+		</div>
             </div>
         </div>
+    </template>
+    <template id="window-browser-content">
+      <iframe src="https://google.com/?igu=1" style="border: None; width: 100%; height: 100%;"></iframe>
+    </template>
+    <template id="window-mousepad-content">
+      <textarea style="all: unset; padding: 1px; width: 100%; height: 100%;"></textarea>
     </template>
 </body>
 

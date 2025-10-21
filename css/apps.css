@@ -5,16 +5,26 @@
 .app {
     width: 52px;
     height: 44px;
+    margin: 0 1px;
 }
 
-/*
-.app {
+.app_has_window {
     padding: 0 3px 3px 3px;
     border-top: solid 3px rgb(165, 165, 165, 0.9);
     background-color: rgba(165, 165, 165, 0.3);
     filter: none;
 }
-*/
+
+.app_focused {
+    border-top: solid 3px rgb(61, 174, 233);
+    background-color: rgba(61, 174, 233, 0.5);
+}
+
+.app_minimized {
+    padding: 0;
+    border: None;
+    background-color: rgba(165, 165, 165, 0.2);
+}
 
 .app img{
     width: 32px;
