@@ -16,8 +16,10 @@
 }
 
 .app_focused {
+    padding: 0 3px 3px 3px;
     border-top: solid 3px rgb(61, 174, 233);
     background-color: rgba(61, 174, 233, 0.5);
+    filter: none;
 }
 
 .app_minimized {

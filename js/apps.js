@@ -15,9 +15,12 @@ class App {
 	    const startHeight = 300
 	    this.window = new Window(this.wm, this, this.template, this.element.children[0].src, this.title, startWidth, startHeight, Math.floor((window.screen.width / 2) - (startWidth / 2)), Math.floor((window.screen.height / 2) - (startHeight / 2)))
 	}
-	else if (this.window.windowStatus === WindowStatuses.VISIBLE || this.window.windowStatus === WindowStatuses.FOCUSED) {
+	else if (this.window.windowStatus === WindowStatuses.FOCUSED) {
 	    this.window.hide(this.element)
 	}
+        else if (this.window.windowStatus === WindowStatuses.VISIBLE) {
+            this.wm.focusedWindow = this.window
+        }
 	else if (this.window.windowStatus === WindowStatuses.MINIMIZED) {
 	    this.window.show()
 	}
@@ -36,7 +39,7 @@ class App {
 	case WindowStatuses.MINIMIZED:
 	    this.element.classList.add("app_minimized")
 	    break
-	case WindowStatus.CLOSING:
+	case WindowStatuses.CLOSING:
 	    this.window = null
 	}
     }
